@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="id.encryptsc.popularmovies.MainActivity">
+
+    <!--Resource Menu For The Main Screen-->
+    <item
+        android:id="@+id/action_refresh"
+        android:icon="@drawable/ic_reload"
+        android:orderInCategory="1"
+        android:title="@string/act_refresh"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/action_about"
+        android:title="@string/about_app"
+        app:showAsAction="never" />
+
+</menu>
