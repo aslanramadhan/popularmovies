@@ -14,6 +14,7 @@ import java.util.List;
 
 public class Movies implements Parcelable{
 
+    private String id;
     private String title;
     @SerializedName("poster_path")
     private String poster;
@@ -35,6 +36,7 @@ public class Movies implements Parcelable{
     Movies(){}
 
     protected Movies(Parcel parcel){
+        id = parcel.readString();
         title = parcel.readString();
         poster = parcel.readString();
         synopsis = parcel.readString();
@@ -57,6 +59,14 @@ public class Movies implements Parcelable{
             return new Movies[i];
         }
     };
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getTitle() {
         return title;
@@ -137,6 +147,7 @@ public class Movies implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
         parcel.writeString(title);
         parcel.writeString(poster);
         parcel.writeString(synopsis);

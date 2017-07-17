@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.inflateMenu(R.menu.menu_main);
+        toolbar.getMenu();
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -70,17 +71,14 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh){
-
-        } else if (id == R.id.action_about) {
-            Context context = this;
-            Class destClass = AboutActivity.class;
-            Intent intent = new Intent(context,destClass);
+        if (id == R.id.action_about) {
+            Intent intent = new Intent(this, AboutActivity.class);
             startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
     }
+
 
     /**
      * A {@link FragmentPagerAdapter} that returns a fragment corresponding to

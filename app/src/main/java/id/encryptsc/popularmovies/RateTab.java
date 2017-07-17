@@ -1,9 +1,11 @@
 package id.encryptsc.popularmovies;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +13,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -20,6 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.zip.Inflater;
 
 import id.encryptsc.popularmovies.data.MovieDetail;
 import id.encryptsc.popularmovies.data.Movies;
@@ -39,6 +43,7 @@ public class RateTab extends Fragment{
 
     private RecyclerView mRecyclerView;
     private PopularTab.MoviesAdapter mAdapter;
+    private ActionBarDrawerToggle mDrawerToggle;
     final GridLayoutManager layoutManager = new GridLayoutManager(getContext(),2);
 
     @Override
@@ -46,9 +51,9 @@ public class RateTab extends Fragment{
                              Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.tab, container, false);
-        setHasOptionsMenu(true);
         Toolbar toolbar = (Toolbar) rootView.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        setHasOptionsMenu(true);
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.recyclerView);
         mRecyclerView.setLayoutManager(layoutManager);
         mAdapter = new PopularTab.MoviesAdapter(getContext());
@@ -59,19 +64,23 @@ public class RateTab extends Fragment{
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // TODO Add your menu entries here
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.clear();
+        //TODO Add your menu entries here
         inflater.inflate(R.menu.menu_main, menu);
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void getTopRated() {
+    void getTopRated() {
+        final ProgressDialog mProgressDialog = new ProgressDialog(getContext());
+        mProgressDialog.setIndeterminate(true);
+        mProgressDialog.setMax(100);
+        mProgressDialog.setMessage("Loading...");
+        mProgressDialog.show();
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setEndpoint("http://api.themoviedb.org/3")
                 .setRequestInterceptor(new RequestInterceptor() {
                     @Override
                     public void intercept(RequestFacade request) {
-                        request.addEncodedQueryParam("api_key", "API KAMU");
+                        request.addEncodedQueryParam("api_key", "5ce7b31d1de258d99092fc6424ad4364");
                     }
                 })
                 .setLogLevel(RestAdapter.LogLevel.FULL)
@@ -80,6 +89,8 @@ public class RateTab extends Fragment{
         service.getTopRated(new Callback<Movies.MovieResluts>() {
             @Override
             public void success(Movies.MovieResluts movieResult, Response response) {
+                if (mProgressDialog.isShowing())
+                    mProgressDialog.dismiss();
                 mAdapter.setMovieList(movieResult.getResults());
             }
 

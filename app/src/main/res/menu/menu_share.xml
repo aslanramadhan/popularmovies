@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="id.encryptsc.popularmovies.data.MovieDetail">
     <item
-        android:id="@+id/action_refresh"
+        android:id="@+id/action_share"
         android:icon="@drawable/ic_share"
         android:orderInCategory="1"
         android:title="@string/act_share"
